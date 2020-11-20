@@ -27,7 +27,7 @@ public class EchoServerMultiThreaded  {
     public static void main(String args[]){
         ServerSocket listenSocket;
         int clientId = 0;
-        HashMap<Integer, Socket> hashMapSockets = new HashMap<Integer,Socket>();
+        ArrayList<Socket> listSockets = new ArrayList<Socket>();
 
         if (args.length != 1) {
             System.out.println("Usage: java EchoServer <EchoServer port>");
@@ -40,8 +40,8 @@ public class EchoServerMultiThreaded  {
                 Socket clientSocket = listenSocket.accept();
                 System.out.println("Connexion from:" + clientSocket.getInetAddress());
                 clientId++;
-                hashMapSockets.put(clientId, clientSocket);
-                ClientThread ct = new ClientThread(clientSocket, clientId, hashMapSockets, EchoServerMultiThreaded.history);
+                listSockets.add(clientSocket);
+                ClientThread ct = new ClientThread(clientSocket, clientId, listSockets, EchoServerMultiThreaded.history);
                 ct.start();
             }
         } catch (Exception e) {

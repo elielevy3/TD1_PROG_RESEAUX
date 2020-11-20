@@ -8,20 +8,20 @@
 package stream;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.*;
 import java.util.*;
 
-public class ClientThread
-        extends Thread {
+public class ClientThread extends Thread {
 
-    private HashMap<Integer, Socket> hashMapSockets;
+    private ArrayList<Socket> listSockets;
     private Socket clientSocket;
     private Integer id;
     private String history;
 
-    ClientThread(Socket s, Integer ID, HashMap<Integer, Socket> l, String h) {
+    ClientThread(Socket s, Integer ID, ArrayList<Socket> l, String h) {
         this.clientSocket = s;
-        this.hashMapSockets = l;
+        this.listSockets = l;
         this.id = ID;
         this.history = h;
     }
@@ -40,20 +40,19 @@ public class ClientThread
                 // on recupere ce qui est entré sur le terminal
                 String line = socIn.readLine();
                 // ici on le broadcast partout y compris pour ce client ci
-                Iterator it = hashMapSockets.entrySet().iterator();
-                while (it.hasNext()) {
-                    Map.Entry pair = (Map.Entry)it.next();
-                        Socket s = (Socket) pair.getValue();
+                if (line != null){
+                    for (Socket s : this.listSockets) {
                         PrintStream out = new PrintStream(s.getOutputStream());
-                        out.println("Client n°"+id+": "+line);
+                        out.println("Client n°" + id + ": " + line);
+                    }
+                    EchoServerMultiThreaded.history += "Client n°" + id + ": " + line + "\n";
                 }
-                EchoServerMultiThreaded.history += "Client n°"+id+": "+line+"\n";
             }
-        } catch (Exception e) {
-            System.err.println("Error in EchoServer:" + e);
+        }
+        catch(Exception e){
+
         }
     }
-
 }
 
 
