@@ -9,12 +9,15 @@ package stream;
 
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class EchoServerMultiThreaded  {
 
+    public static String history;
+
+    static{
+        history = "";
+    }
 
     /**
      * main method
@@ -25,7 +28,6 @@ public class EchoServerMultiThreaded  {
         ServerSocket listenSocket;
         int clientId = 0;
         HashMap<Integer, Socket> hashMapSockets = new HashMap<Integer,Socket>();
-
 
         if (args.length != 1) {
             System.out.println("Usage: java EchoServer <EchoServer port>");
@@ -39,7 +41,7 @@ public class EchoServerMultiThreaded  {
                 System.out.println("Connexion from:" + clientSocket.getInetAddress());
                 clientId++;
                 hashMapSockets.put(clientId, clientSocket);
-                ClientThread ct = new ClientThread(clientSocket, clientId, hashMapSockets);
+                ClientThread ct = new ClientThread(clientSocket, clientId, hashMapSockets, EchoServerMultiThreaded.history);
                 ct.start();
             }
         } catch (Exception e) {
