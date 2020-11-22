@@ -17,13 +17,11 @@ public class ClientThread extends Thread {
     private ArrayList<Socket> listSockets;
     private Socket clientSocket;
     private Integer id;
-    private String history;
 
-    ClientThread(Socket s, Integer ID, ArrayList<Socket> l, String h) {
+    ClientThread(Socket s, Integer ID, ArrayList<Socket> l) {
         this.clientSocket = s;
         this.listSockets = l;
         this.id = ID;
-        this.history = h;
     }
 
     /**
@@ -35,7 +33,8 @@ public class ClientThread extends Thread {
             socIn = new BufferedReader(
                     new InputStreamReader(clientSocket.getInputStream()));
             PrintStream socOut = new PrintStream(clientSocket.getOutputStream());
-            socOut.println(this.history);
+            String history = readFromFile("history.txt");
+            socOut.println(history);
             while (true) {
                 // on recupere ce qui est entré sur le terminal
                 String line = socIn.readLine();
@@ -46,12 +45,42 @@ public class ClientThread extends Thread {
                         out.println("Client n°" + id + ": " + line);
                     }
                     EchoServerMultiThreaded.history += "Client n°" + id + ": " + line + "\n";
+                    writeIntoFile(EchoServerMultiThreaded.history, "history.txt");
                 }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        catch(Exception e){
 
+    }
+
+    public void writeIntoFile(String text, String fileName){
+        try {
+            FileWriter myWriter = new FileWriter(fileName);
+            myWriter.append(text);
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
+    }
+
+    public String readFromFile(String fileName){
+        String content = "";
+        try {
+            File myObj = new File(fileName);
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                String line = myReader.nextLine();
+                content += line+"\n";
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        return content;
     }
 }
 
