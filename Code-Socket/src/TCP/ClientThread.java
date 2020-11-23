@@ -5,10 +5,9 @@
  * Authors:
  */
 
-package stream;
+package TCP;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.*;
 import java.util.*;
 
@@ -42,9 +41,9 @@ public class ClientThread extends Thread {
                 if (line != null){
                     for (Socket s : this.listSockets) {
                         PrintStream out = new PrintStream(s.getOutputStream());
-                        out.println("Client n°" + id + ": " + line);
+                        out.println(line);
                     }
-                    EchoServerMultiThreaded.history += "Client n°" + id + ": " + line + "\n";
+                    EchoServerMultiThreaded.history +=line + "\n";
                     writeIntoFile(EchoServerMultiThreaded.history, "history.txt");
                 }
             }

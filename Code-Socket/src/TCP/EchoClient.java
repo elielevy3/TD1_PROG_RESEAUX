@@ -4,7 +4,7 @@
  * Date: 10/01/04
  * Authors:
  */
-package stream;
+package TCP;
 
 import java.io.*;
 import java.net.*;
@@ -27,14 +27,19 @@ public class EchoClient {
           System.exit(1);
         }
 
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Veuillez entrer votre prénom: ");
+        String firstName = in.readLine();
+        System.out.println("Veuillez entrer votre nom de famille");
+        String lastName = in.readLine();
+
         try {
       	    // creation socket ==> connexion
             System.out.println("Client Launched");
       	    echoSocket = new Socket(args[0],new Integer(args[1]).intValue());
-	    socIn = new BufferedReader(
-	    		          new InputStreamReader(echoSocket.getInputStream()));    
-	    socOut= new PrintStream(echoSocket.getOutputStream());
-	    stdIn = new BufferedReader(new InputStreamReader(System.in));
+            socIn = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
+            socOut= new PrintStream(echoSocket.getOutputStream());
+            stdIn = new BufferedReader(new InputStreamReader(System.in));
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host:" + args[0]);
             System.exit(1);
@@ -45,7 +50,7 @@ public class EchoClient {
         }
 
         // recevoir un message
-        listenBroadcastThread thread = new listenBroadcastThread(echoSocket);
+        ListenBroadcastThread thread = new ListenBroadcastThread(echoSocket);
         thread.start();
 
         // emettre un message
@@ -53,7 +58,7 @@ public class EchoClient {
         while (true) {
         	line=stdIn.readLine();
         	if (line.equals(".")) break;
-        	socOut.println(line);
+        	socOut.println(firstName+" "+lastName+": "+line);
         }
       socOut.close();
       socIn.close();

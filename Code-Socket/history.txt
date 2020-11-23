@@ -1,7 +1,6 @@
-Client n°1: test
-Client n°2: hehe
-Client n°3: www
-Client n°2: aaa
-Client n°1: qqq
-Client n°2: aaa
-Client n°1: ccc
+Aksel  Volle: Hello Hello
+Elie Levy: Salut
+Aksel  Volle: Yo
+Hugo D: Salut les gars
+Elie Levy: coucou
+flo rian: slt

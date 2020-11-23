@@ -1,15 +1,15 @@
-package stream;
+package TCP;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-public class listenBroadcastThread extends  Thread {
+public class ListenBroadcastThread extends  Thread {
 
     private Socket clientSocket;
 
-    public listenBroadcastThread(Socket s) {
+    public ListenBroadcastThread(Socket s) {
         this.clientSocket = s;
     }
 
