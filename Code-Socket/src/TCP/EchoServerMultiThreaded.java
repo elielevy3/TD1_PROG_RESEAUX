@@ -44,7 +44,7 @@ public class EchoServerMultiThreaded  {
                 System.out.println("Connexion from:" + clientSocket.getInetAddress());
                 clientId++;
                 listSockets.add(clientSocket);
-                ClientThread ct = new ClientThread(clientSocket, clientId, listSockets);
+                SendBroadcastThread ct = new SendBroadcastThread(clientSocket, clientId, listSockets);
                 ct.start();
             }
         } catch (Exception e) {

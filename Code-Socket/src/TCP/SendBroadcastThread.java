@@ -11,13 +11,13 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class ClientThread extends Thread {
+public class SendBroadcastThread extends Thread {
 
     private ArrayList<Socket> listSockets;
     private Socket clientSocket;
     private Integer id;
 
-    ClientThread(Socket s, Integer ID, ArrayList<Socket> l) {
+    SendBroadcastThread(Socket s, Integer ID, ArrayList<Socket> l) {
         this.clientSocket = s;
         this.listSockets = l;
         this.id = ID;
@@ -35,7 +35,6 @@ public class ClientThread extends Thread {
             String history = readFromFile("history.txt");
             socOut.println(history);
             while (true) {
-                // on recupere ce qui est entré sur le terminal
                 String line = socIn.readLine();
                 // ici on le broadcast partout y compris pour ce client ci
                 if (line != null){
